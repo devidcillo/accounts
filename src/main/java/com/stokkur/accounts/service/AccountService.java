@@ -19,6 +19,6 @@ public class AccountService {
     }
 
     public Account addAccount(Account newAccount) {
-        return null;
+        return repository.save(newAccount);
     }
 }

@@ -22,4 +22,13 @@ public class AccountServiceTest {
         when(repository.findAll()).thenReturn(expectedAccounts);
         assertThat(service.listAllAccounts()).containsAll(expectedAccounts);
     }
+
+    @Test
+    void shouldInsertNewAccountEntity() {
+        AccountRepository repository = mock(AccountRepository.class);
+        AccountService service = new AccountService(repository);
+        Account sampleAccount = new Account(RandomUtils.nextLong(), RandomStringUtils.randomAlphabetic(10));
+        when(repository.save(sampleAccount)).thenReturn(sampleAccount);
+        assertThat(service.addAccount(sampleAccount)).isEqualTo(sampleAccount);
+    }
 }
