@@ -23,4 +23,13 @@ public class AccountsControllerTest {
         when(accountService.listAllAccounts()).thenReturn(expectedAccounts);
         assertThat(controller.getAllAccounts()).containsAll(expectedAccounts);
     }
+
+    @Test
+    void shouldAddAccountGivenUserInformation() {
+        AccountService service = mock(AccountService.class);
+        AccountsController controller = new AccountsController(service);
+        Account sampleAccount = new Account(RandomUtils.nextLong(), RandomStringUtils.randomAlphabetic(10));
+        when(service.addAccount(sampleAccount)).thenReturn(sampleAccount);
+        assertThat(controller.newAccount(sampleAccount)).isEqualTo(sampleAccount);
+    }
 }

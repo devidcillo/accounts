@@ -17,4 +17,8 @@ public class AccountService {
     public List<Account> listAllAccounts() {
         return repository.findAll();
     }
+
+    public Account addAccount(Account newAccount) {
+        return null;
+    }
 }
