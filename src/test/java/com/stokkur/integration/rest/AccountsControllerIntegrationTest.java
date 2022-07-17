@@ -62,6 +62,7 @@ public class AccountsControllerIntegrationTest {
     }
 
     @Test
+    @Sql("/drop_table_and_insert_five_accounts.sql")
     void shouldEditExistingAccountGivenPayload() {
         UUID id = UUID.fromString("cd8c8dc0-ae89-4ae7-b9f9-56812461faf8");
         client.put().uri("/accounts/{id}", id)
