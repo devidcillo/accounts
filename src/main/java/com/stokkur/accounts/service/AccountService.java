@@ -35,8 +35,7 @@ public class AccountService {
 
     public Account updateAccount(UUID id, AccountRequest accountRequest) {
         Account previousAccount = fetchAccount(id);
-        Account updatedAccount = accountRequest.toAccount();
-        Account update = previousAccount.update(updatedAccount);
-        return repository.save(update);
+        Account updatedValues = accountRequest.toAccount();
+        return repository.save(previousAccount.update(updatedValues));
     }
 }
