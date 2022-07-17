@@ -6,10 +6,12 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.stokkur.accounts.model.Account;
 
+import java.util.UUID;
+
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class AccountResponse {
     @JsonInclude(Include.NON_NULL)
-    private Long id;
+    private UUID id;
     private String name;
 
     public AccountResponse() {
@@ -28,7 +30,7 @@ public class AccountResponse {
         return name;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 }

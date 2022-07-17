@@ -40,7 +40,7 @@ public class AccountsControllerIntegrationTest {
                 .exchange()
                 .expectStatus().isCreated()
                 .expectBody(AccountResponse.class).consumeWith(account -> {
-                    assertThat(account.getResponseBody().getId()).isPositive();
+                    assertThat(account.getResponseBody().getId()).isNotNull();
                     assertThat(account.getResponseBody().getName()).isEqualTo("David");
                 });
     }
