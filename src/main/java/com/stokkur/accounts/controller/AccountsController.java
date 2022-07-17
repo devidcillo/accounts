@@ -38,4 +38,8 @@ public class AccountsController {
     public AccountResponse getAccount(@PathVariable UUID id) {
         return AccountResponse.fromAccount(accountService.fetchAccount(id));
     }
+
+    public AccountResponse updateAccount(UUID id, AccountRequest account) {
+        return AccountResponse.fromAccount(accountService.updateAccount(id, account));
+    }
 }

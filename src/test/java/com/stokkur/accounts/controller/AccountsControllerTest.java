@@ -52,4 +52,11 @@ public class AccountsControllerTest {
         when(service.fetchAccount(id)).thenReturn(sampleAccount);
         assertThat(controller.getAccount(id)).usingRecursiveComparison().isEqualTo(expectedAccountResponse);
     }
+
+    @Test
+    void shouldUpdateAccountGivenId() {
+        UUID id = UUID.randomUUID();
+        when(service.updateAccount(id, accountRequest)).thenReturn(sampleAccount);
+        assertThat(controller.updateAccount(id, accountRequest)).usingRecursiveComparison().isEqualTo(expectedAccountResponse);
+    }
 }

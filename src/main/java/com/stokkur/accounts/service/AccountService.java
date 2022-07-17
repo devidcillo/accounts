@@ -32,4 +32,8 @@ public class AccountService {
             return accountOptional.get();
         throw new NoSuchEntityException(String.format("Account %s not found", id));
     }
+
+    public Account updateAccount(UUID id, AccountRequest account) {
+        return null;
+    }
 }
