@@ -2,6 +2,7 @@ package com.stokkur.integration.rest;
 
 import com.stokkur.accounts.AccountsApplication;
 import com.stokkur.accounts.model.Account;
+import com.stokkur.accounts.response.AccountResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,7 +30,7 @@ public class AccountsControllerIntegrationTest {
                 .bodyValue("{\"name\": \"David\"}")
                 .exchange()
                 .expectStatus().isCreated()
-                .expectBody(Account.class)
+                .expectBody(AccountResponse.class)
                 .consumeWith(account -> {
                     assertThat(account.getResponseBody().getId()).isPositive();
                     assertThat(account.getResponseBody().getName()).isEqualTo("David");
