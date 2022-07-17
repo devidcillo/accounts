@@ -44,4 +44,8 @@ public class AccountsController {
     public AccountResponse updateAccount(@PathVariable UUID id, @RequestBody AccountRequest account) {
         return AccountResponse.fromAccount(accountService.updateAccount(id, account));
     }
+
+    public void deleteAccount(UUID id) {
+        accountService.deleteAccount(id);
+    }
 }

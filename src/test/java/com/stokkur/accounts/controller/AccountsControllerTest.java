@@ -12,8 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class AccountsControllerTest {
 
@@ -58,5 +57,12 @@ public class AccountsControllerTest {
         UUID id = UUID.randomUUID();
         when(service.updateAccount(id, accountRequest)).thenReturn(sampleAccount);
         assertThat(controller.updateAccount(id, accountRequest)).usingRecursiveComparison().isEqualTo(expectedAccountResponse);
+    }
+
+    @Test
+    void shouldDeleteAccountGivenId() {
+        UUID id = UUID.randomUUID();
+        controller.deleteAccount(id);
+        verify(service).deleteAccount(id);
     }
 }
