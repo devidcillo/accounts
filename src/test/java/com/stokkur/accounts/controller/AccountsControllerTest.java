@@ -19,36 +19,37 @@ public class AccountsControllerTest {
 
     private AccountService service;
     private AccountsController controller;
+    private AccountRequest accountRequest;
+    private Account sampleAccount;
+    private AccountResponse expectedAccountResponse;
 
     @BeforeEach
     void setUp() {
+        sampleAccount = new Account(RandomStringUtils.randomAlphabetic(10));
+        accountRequest = new AccountRequest(RandomStringUtils.randomAlphabetic(10));
+        expectedAccountResponse = AccountResponse.fromAccount(sampleAccount);
         service = mock(AccountService.class);
         controller = new AccountsController(service);
     }
 
     @Test
     void shouldListAllAccounts() {
-        Account sampleAccount = new Account(RandomStringUtils.randomAlphabetic(10));
         List<Account> accountList = List.of(sampleAccount);
-        List<AccountResponse> responseList = List.of(AccountResponse.fromAccount(sampleAccount));
+        List<AccountResponse> responseList = List.of(expectedAccountResponse);
         when(service.listAllAccounts()).thenReturn(accountList);
         assertThat(controller.getAllAccounts()).usingRecursiveComparison().isEqualTo(responseList);
     }
 
     @Test
     void shouldAddAccountGivenUserInformation() {
-        AccountRequest accountRequest = new AccountRequest(RandomStringUtils.randomAlphabetic(10));
-        Account account = accountRequest.toAccount();
-        when(service.addAccount(accountRequest)).thenReturn(account);
-        assertThat(controller.newAccount(accountRequest)).usingRecursiveComparison().isEqualTo(AccountResponse.fromAccount(account));
+        when(service.addAccount(accountRequest)).thenReturn(sampleAccount);
+        assertThat(controller.newAccount(accountRequest)).usingRecursiveComparison().isEqualTo(expectedAccountResponse);
     }
 
     @Test
     void shouldFetchAccountGivenId() {
         UUID id = UUID.randomUUID();
-        AccountRequest accountRequest = new AccountRequest(RandomStringUtils.randomAlphabetic(10));
-        Account account = accountRequest.toAccount();
-        when(service.fetchAccount(id)).thenReturn(account);
-        assertThat(controller.getAccount(id)).usingRecursiveComparison().isEqualTo(AccountResponse.fromAccount(account));
+        when(service.fetchAccount(id)).thenReturn(sampleAccount);
+        assertThat(controller.getAccount(id)).usingRecursiveComparison().isEqualTo(expectedAccountResponse);
     }
 }
