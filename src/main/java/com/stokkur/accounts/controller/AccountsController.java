@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/")
@@ -20,8 +22,9 @@ public class AccountsController {
     }
 
     @GetMapping("/accounts")
-    public List<Account> getAllAccounts() {
-        return accountService.listAllAccounts();
+    public List<AccountResponse> getAllAccounts() {
+        Stream<Account> accountStream = accountService.listAllAccounts().stream();
+        return accountStream.map(AccountResponse::fromAccount).collect(Collectors.toList());
     }
 
     @PostMapping("/new-account")

@@ -28,9 +28,10 @@ public class AccountsControllerTest {
     @Test
     void shouldListAllAccounts() {
         Account sampleAccount = new Account(RandomStringUtils.randomAlphabetic(10));
-        List<Account> expectedAccounts = List.of(sampleAccount);
-        when(service.listAllAccounts()).thenReturn(expectedAccounts);
-        assertThat(controller.getAllAccounts()).containsAll(expectedAccounts);
+        List<Account> accountList = List.of(sampleAccount);
+        List<AccountResponse> responseList = List.of(AccountResponse.fromAccount(sampleAccount));
+        when(service.listAllAccounts()).thenReturn(accountList);
+        assertThat(controller.getAllAccounts()).usingRecursiveComparison().isEqualTo(responseList);
     }
 
     @Test
