@@ -39,7 +39,9 @@ public class AccountsController {
         return AccountResponse.fromAccount(accountService.fetchAccount(id));
     }
 
-    public AccountResponse updateAccount(UUID id, AccountRequest account) {
+    @PutMapping("/accounts/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public AccountResponse updateAccount(@PathVariable UUID id, @RequestBody AccountRequest account) {
         return AccountResponse.fromAccount(accountService.updateAccount(id, account));
     }
 }

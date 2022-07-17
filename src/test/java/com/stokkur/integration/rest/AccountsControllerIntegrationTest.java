@@ -5,6 +5,7 @@ import com.stokkur.accounts.response.AccountResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -57,6 +58,20 @@ public class AccountsControllerIntegrationTest {
                 .expectBody(AccountResponse.class).consumeWith(account -> {
                     assertThat(account.getResponseBody().getId()).isEqualTo(id);
                     assertThat(account.getResponseBody().getName()).isEqualTo("Majo");
+                });
+    }
+
+    @Test
+    void shouldEditExistingAccountGivenPayload() {
+        UUID id = UUID.fromString("cd8c8dc0-ae89-4ae7-b9f9-56812461faf8");
+        client.put().uri("/accounts/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue("{\"name\": \"David\"}")
+                .exchange()
+                .expectStatus().isAccepted()
+                .expectBody(AccountResponse.class).consumeWith(account -> {
+                    assertThat(account.getResponseBody().getId()).isNotNull();
+                    assertThat(account.getResponseBody().getName()).isEqualTo("David");
                 });
     }
 }
