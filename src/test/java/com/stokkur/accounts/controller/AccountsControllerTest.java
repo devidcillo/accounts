@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -40,5 +41,14 @@ public class AccountsControllerTest {
         Account account = accountRequest.toAccount();
         when(service.addAccount(accountRequest)).thenReturn(account);
         assertThat(controller.newAccount(accountRequest)).usingRecursiveComparison().isEqualTo(AccountResponse.fromAccount(account));
+    }
+
+    @Test
+    void shouldFetchAccountGivenId() {
+        UUID id = UUID.randomUUID();
+        AccountRequest accountRequest = new AccountRequest(RandomStringUtils.randomAlphabetic(10));
+        Account account = accountRequest.toAccount();
+        when(service.fetchAccount(id)).thenReturn(account);
+        assertThat(controller.getAccount(id)).usingRecursiveComparison().isEqualTo(AccountResponse.fromAccount(account));
     }
 }

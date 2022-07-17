@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,5 +32,9 @@ public class AccountsController {
     @ResponseStatus(HttpStatus.CREATED)
     public AccountResponse newAccount(@RequestBody AccountRequest account) {
         return AccountResponse.fromAccount(accountService.addAccount(account));
+    }
+
+    public AccountResponse getAccount(UUID id) {
+        return AccountResponse.fromAccount(accountService.fetchAccount(id));
     }
 }

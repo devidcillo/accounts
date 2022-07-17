@@ -6,6 +6,7 @@ import com.stokkur.accounts.request.AccountRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AccountService {
@@ -21,5 +22,9 @@ public class AccountService {
 
     public Account addAccount(AccountRequest accountRequest) {
         return repository.save(accountRequest.toAccount());
+    }
+
+    public Account fetchAccount(UUID id) {
+        return null;
     }
 }
