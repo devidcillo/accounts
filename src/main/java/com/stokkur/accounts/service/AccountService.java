@@ -33,7 +33,10 @@ public class AccountService {
         throw new NoSuchEntityException(String.format("Account %s not found", id));
     }
 
-    public Account updateAccount(UUID id, AccountRequest account) {
-        return null;
+    public Account updateAccount(UUID id, AccountRequest accountRequest) {
+        Account previousAccount = fetchAccount(id);
+        Account updatedAccount = accountRequest.toAccount();
+        Account update = previousAccount.update(updatedAccount);
+        return repository.save(update);
     }
 }

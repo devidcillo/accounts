@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -62,5 +63,16 @@ public class AccountServiceTest {
         assertThatExceptionOfType(NoSuchEntityException.class)
                 .isThrownBy(() -> service.fetchAccount(id))
                 .withMessageContainingAll(String.format("Account %s not found", id), "404 NOT_FOUND");
+    }
+
+    @Test
+    void shouldUpdateAccountGivenIdAndUpdateEntity() {
+        UUID id = UUID.randomUUID();
+        AccountRequest updatedAccount = new AccountRequest("joe");
+        Account account = updatedAccount.toAccount();
+        Account accountToUpdate = new Account(id, "David");
+        when(repository.save(any(Account.class))).thenReturn(account);
+        when(repository.findById(id)).thenReturn(Optional.of(accountToUpdate));
+        assertThat(service.updateAccount(id, updatedAccount)).usingRecursiveComparison().isEqualTo(account);
     }
 }

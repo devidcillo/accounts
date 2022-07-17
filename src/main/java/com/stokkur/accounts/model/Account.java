@@ -38,4 +38,11 @@ public class Account {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Account update(Account updatedAccount) {
+        if (updatedAccount.name.isEmpty())
+            return new Account(id, name);
+        else
+            return new Account(id, updatedAccount.name);
+    }
 }
