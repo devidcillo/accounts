@@ -11,6 +11,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import javax.transaction.Transactional;
 
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = AccountsApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -42,6 +44,19 @@ public class AccountsControllerIntegrationTest {
                 .expectBody(AccountResponse.class).consumeWith(account -> {
                     assertThat(account.getResponseBody().getId()).isNotNull();
                     assertThat(account.getResponseBody().getName()).isEqualTo("David");
+                });
+    }
+
+    @Test
+    @Sql("/drop_table_and_insert_five_accounts.sql")
+    void shouldGetIndividualAccount() {
+        UUID id = UUID.fromString("cd8c8dc0-ae89-4ae7-b9f9-56812461faf8");
+        client.get().uri("/accounts/{id}", id)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(AccountResponse.class).consumeWith(account -> {
+                    assertThat(account.getResponseBody().getId()).isEqualTo(id);
+                    assertThat(account.getResponseBody().getName()).isEqualTo("Majo");
                 });
     }
 }

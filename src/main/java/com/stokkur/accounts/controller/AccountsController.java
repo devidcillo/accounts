@@ -34,7 +34,8 @@ public class AccountsController {
         return AccountResponse.fromAccount(accountService.addAccount(account));
     }
 
-    public AccountResponse getAccount(UUID id) {
+    @GetMapping("/accounts/{id}")
+    public AccountResponse getAccount(@PathVariable UUID id) {
         return AccountResponse.fromAccount(accountService.fetchAccount(id));
     }
 }
