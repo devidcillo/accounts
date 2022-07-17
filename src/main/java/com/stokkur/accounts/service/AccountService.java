@@ -6,6 +6,8 @@ import com.stokkur.accounts.request.AccountRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -25,6 +27,9 @@ public class AccountService {
     }
 
     public Account fetchAccount(UUID id) {
-        return repository.findById(id).get();
+        Optional<Account> accountOptional = repository.findById(id);
+        if (accountOptional.isPresent())
+            return accountOptional.get();
+        throw new NoSuchElementException(String.format("Account %s not found", id));
     }
 }

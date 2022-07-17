@@ -8,10 +8,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -51,5 +53,14 @@ public class AccountServiceTest {
         Account sampleAccount = new Account(id, RandomStringUtils.randomAlphabetic(10));
         when(repository.findById(id)).thenReturn(Optional.of(sampleAccount));
         assertThat(service.fetchAccount(id)).isEqualTo(sampleAccount);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenAccountDoesNotExist() {
+        UUID id = UUID.randomUUID();
+        when(repository.findById(id)).thenReturn(Optional.empty());
+        assertThatExceptionOfType(NoSuchElementException.class)
+                .isThrownBy(() -> service.fetchAccount(id))
+                .withMessage(String.format("Account %s not found", id));
     }
 }
