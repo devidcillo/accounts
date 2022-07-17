@@ -1,6 +1,8 @@
 package com.stokkur.accounts.controller;
 
 import com.stokkur.accounts.model.Account;
+import com.stokkur.accounts.request.AccountRequest;
+import com.stokkur.accounts.response.AccountResponse;
 import com.stokkur.accounts.service.AccountService;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
@@ -27,8 +29,9 @@ public class AccountsControllerTest {
     void shouldAddAccountGivenUserInformation() {
         AccountService service = mock(AccountService.class);
         AccountsController controller = new AccountsController(service);
-        Account sampleAccount = new Account(RandomStringUtils.randomAlphabetic(10));
-        when(service.addAccount(sampleAccount)).thenReturn(sampleAccount);
-        assertThat(controller.newAccount(sampleAccount)).isEqualTo(sampleAccount);
+        AccountRequest accountRequest = new AccountRequest(RandomStringUtils.randomAlphabetic(10));
+        Account account = accountRequest.toAccount();
+        when(service.addAccount(accountRequest)).thenReturn(account);
+        assertThat(controller.newAccount(accountRequest)).usingRecursiveComparison().isEqualTo(AccountResponse.fromAccount(account));
     }
 }

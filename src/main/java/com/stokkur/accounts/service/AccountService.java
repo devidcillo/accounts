@@ -2,6 +2,7 @@ package com.stokkur.accounts.service;
 
 import com.stokkur.accounts.model.Account;
 import com.stokkur.accounts.repository.AccountRepository;
+import com.stokkur.accounts.request.AccountRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class AccountService {
         return repository.findAll();
     }
 
-    public Account addAccount(Account newAccount) {
-        return repository.save(newAccount);
+    public Account addAccount(AccountRequest accountRequest) {
+        return repository.save(accountRequest.toAccount());
     }
 }

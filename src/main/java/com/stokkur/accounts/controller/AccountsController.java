@@ -1,6 +1,8 @@
 package com.stokkur.accounts.controller;
 
 import com.stokkur.accounts.model.Account;
+import com.stokkur.accounts.request.AccountRequest;
+import com.stokkur.accounts.response.AccountResponse;
 import com.stokkur.accounts.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +26,7 @@ public class AccountsController {
 
     @PostMapping("/new-account")
     @ResponseStatus(HttpStatus.CREATED)
-    public Account newAccount(@RequestBody Account account) {
-        return accountService.addAccount(account);
+    public AccountResponse newAccount(@RequestBody AccountRequest account) {
+        return AccountResponse.fromAccount(accountService.addAccount(account));
     }
 }
