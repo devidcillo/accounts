@@ -45,7 +45,8 @@ public class AccountsController {
         return AccountResponse.fromAccount(accountService.updateAccount(id, account));
     }
 
-    public void deleteAccount(UUID id) {
+    @DeleteMapping("/accounts/{id}")
+    public void deleteAccount(@PathVariable UUID id) {
         accountService.deleteAccount(id);
     }
 }

@@ -75,4 +75,18 @@ public class AccountsControllerIntegrationTest {
                     assertThat(account.getResponseBody().getName()).isEqualTo("David");
                 });
     }
+
+    @Test
+    @Sql("/drop_table_and_insert_five_accounts.sql")
+    void shouldDeleteExistingAccount() {
+        UUID id = UUID.fromString("cd8c8dc0-ae89-4ae7-b9f9-56812461faf8");
+        client.delete().uri("/accounts/{id}", id)
+                .exchange()
+                .expectStatus().isOk();
+
+        client.get().uri("/accounts")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(AccountResponse.class).hasSize(4);
+    }
 }
