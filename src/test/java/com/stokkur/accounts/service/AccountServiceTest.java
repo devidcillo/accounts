@@ -15,8 +15,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class AccountServiceTest {
 
@@ -74,5 +73,14 @@ public class AccountServiceTest {
         when(repository.save(any(Account.class))).thenReturn(account);
         when(repository.findById(id)).thenReturn(Optional.of(accountToUpdate));
         assertThat(service.updateAccount(id, updatedAccount)).usingRecursiveComparison().isEqualTo(account);
+    }
+
+    @Test
+    void shouldDeleteAccountGivenId() {
+        UUID id = UUID.randomUUID();
+        Account account = new Account(id, RandomStringUtils.randomAlphabetic(10));
+        when(repository.findById(id)).thenReturn((Optional.of(account)));
+        service.deleteAccount(id);
+        verify(repository).deleteById(id);
     }
 }

@@ -38,4 +38,9 @@ public class AccountService {
         Account updatedValues = accountRequest.toAccount();
         return repository.save(previousAccount.update(updatedValues));
     }
+
+    public void deleteAccount(UUID id) {
+        Account accountToDelete = fetchAccount(id);
+        repository.deleteById(accountToDelete.getId());
+    }
 }
