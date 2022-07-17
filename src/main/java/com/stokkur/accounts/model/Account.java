@@ -15,8 +15,7 @@ public class Account {
     public Account() {
     }
 
-    public Account(Long id, String name) {
-        this.id = id;
+    public Account(String name) {
         this.name = name;
     }
 

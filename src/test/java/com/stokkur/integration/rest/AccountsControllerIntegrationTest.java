@@ -1,6 +1,7 @@
 package com.stokkur.integration.rest;
 
 import com.stokkur.accounts.AccountsApplication;
+import com.stokkur.accounts.model.Account;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,8 +24,9 @@ public class AccountsControllerIntegrationTest {
     void shouldAddNewAccountGivenPayload() {
         client.post().uri("/new-account")
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue("{\"id\": \"1\", \"name\": \"David\"}")
+                .bodyValue("{\"name\": \"David\"}")
                 .exchange()
-                .expectStatus().isCreated();
+                .expectStatus().isCreated()
+                .expectBody(Account.class);
     }
 }
