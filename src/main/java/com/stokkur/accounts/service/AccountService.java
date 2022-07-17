@@ -1,18 +1,18 @@
 package com.stokkur.accounts.service;
 
+import com.stokkur.accounts.exception.NoSuchEntityException;
 import com.stokkur.accounts.model.Account;
 import com.stokkur.accounts.repository.AccountRepository;
 import com.stokkur.accounts.request.AccountRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class AccountService {
-    private AccountRepository repository;
+    private final AccountRepository repository;
 
     public AccountService(AccountRepository repository) {
         this.repository = repository;
@@ -30,6 +30,6 @@ public class AccountService {
         Optional<Account> accountOptional = repository.findById(id);
         if (accountOptional.isPresent())
             return accountOptional.get();
-        throw new NoSuchElementException(String.format("Account %s not found", id));
+        throw new NoSuchEntityException(String.format("Account %s not found", id));
     }
 }

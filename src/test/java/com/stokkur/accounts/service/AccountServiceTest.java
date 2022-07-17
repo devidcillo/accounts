@@ -1,5 +1,6 @@
 package com.stokkur.accounts.service;
 
+import com.stokkur.accounts.exception.NoSuchEntityException;
 import com.stokkur.accounts.model.Account;
 import com.stokkur.accounts.repository.AccountRepository;
 import com.stokkur.accounts.request.AccountRequest;
@@ -8,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -59,8 +59,8 @@ public class AccountServiceTest {
     void shouldThrowExceptionWhenAccountDoesNotExist() {
         UUID id = UUID.randomUUID();
         when(repository.findById(id)).thenReturn(Optional.empty());
-        assertThatExceptionOfType(NoSuchElementException.class)
+        assertThatExceptionOfType(NoSuchEntityException.class)
                 .isThrownBy(() -> service.fetchAccount(id))
-                .withMessage(String.format("Account %s not found", id));
+                .withMessageContainingAll(String.format("Account %s not found", id), "404 NOT_FOUND");
     }
 }
