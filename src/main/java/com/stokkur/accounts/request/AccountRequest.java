@@ -3,7 +3,7 @@ package com.stokkur.accounts.request;
 import com.stokkur.accounts.model.Account;
 
 public class AccountRequest {
-    private String name;
+    private final String name;
 
     public AccountRequest(String name) {
         this.name = name;
