@@ -12,7 +12,7 @@ class AccountRequestTest {
         String name = RandomStringUtils.randomAlphabetic(10);
         AccountRequest request = new AccountRequest(name);
         Account actual = request.toAccount();
-        assertThat(actual.getId()).isNull();
+        assertThat(actual.getId()).isNotNull();
         assertThat(actual.getName()).isEqualTo(name);
     }
 }
