@@ -25,6 +25,6 @@ public class AccountService {
     }
 
     public Account fetchAccount(UUID id) {
-        return null;
+        return repository.findById(id).get();
     }
 }

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,5 +43,13 @@ public class AccountServiceTest {
         when(sampleRequest.toAccount()).thenReturn(sampleAccount);
         when(repository.save(sampleAccount)).thenReturn(repositoryAccount);
         assertThat(service.addAccount(sampleRequest)).isEqualTo(repositoryAccount);
+    }
+
+    @Test
+    void shouldFindExistingIndividualAccount() {
+        UUID id = UUID.randomUUID();
+        Account sampleAccount = new Account(id, RandomStringUtils.randomAlphabetic(10));
+        when(repository.findById(id)).thenReturn(Optional.of(sampleAccount));
+        assertThat(service.fetchAccount(id)).isEqualTo(sampleAccount);
     }
 }
