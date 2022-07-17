@@ -10,6 +10,8 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 
 import javax.transaction.Transactional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @SpringBootTest(classes = AccountsApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Transactional
 public class AccountsControllerIntegrationTest {
@@ -27,6 +29,10 @@ public class AccountsControllerIntegrationTest {
                 .bodyValue("{\"name\": \"David\"}")
                 .exchange()
                 .expectStatus().isCreated()
-                .expectBody(Account.class);
+                .expectBody(Account.class)
+                .consumeWith(account -> {
+                    assertThat(account.getResponseBody().getId()).isPositive();
+                    assertThat(account.getResponseBody().getName()).isEqualTo("David");
+                });
     }
 }
