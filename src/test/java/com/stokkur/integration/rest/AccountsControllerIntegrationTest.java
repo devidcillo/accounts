@@ -3,6 +3,7 @@ package com.stokkur.integration.rest;
 import com.stokkur.accounts.AccountsApplication;
 import com.stokkur.accounts.response.AccountResponse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -18,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(classes = AccountsApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Transactional
+@Tag("integration-test")
 public class AccountsControllerIntegrationTest {
     private WebTestClient client;
 
