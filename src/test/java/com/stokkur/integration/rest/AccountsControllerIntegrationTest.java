@@ -41,7 +41,7 @@ public class AccountsControllerIntegrationTest {
         DateTimeFormatter regularDateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         client.post().uri("/new-account")
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue("{\"name\": \"David\"}")
+                .bodyValue("{\"username\": \"David\", \"password\": \"new-pass\"}")
                 .exchange()
                 .expectStatus().isCreated()
                 .expectBody(AccountResponse.class).consumeWith(account -> {
@@ -68,15 +68,19 @@ public class AccountsControllerIntegrationTest {
     @Test
     @Sql("/drop_table_and_insert_five_accounts.sql")
     void shouldEditExistingAccountGivenPayload() {
+        LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
+        DateTimeFormatter regularDateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         UUID id = UUID.fromString("cd8c8dc0-ae89-4ae7-b9f9-56812461faf8");
         client.put().uri("/accounts/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .bodyValue("{\"name\": \"David\"}")
+                .bodyValue("{\"username\": \"David\", \"password\": \"new-pass\"}")
                 .exchange()
                 .expectStatus().isAccepted()
                 .expectBody(AccountResponse.class).consumeWith(account -> {
-                    assertThat(account.getResponseBody().getId()).isNotNull();
+                    assertThat(account.getResponseBody().getId()).isEqualTo(id);
                     assertThat(account.getResponseBody().getUsername()).isEqualTo("David");
+                    assertThat(account.getResponseBody().getPassword()).isEqualTo("***********");
+                    assertThat(account.getResponseBody().getMemberSince()).isEqualTo(yesterday.format(regularDateFormat));
                 });
     }
 
