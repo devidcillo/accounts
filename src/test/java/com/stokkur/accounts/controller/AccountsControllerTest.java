@@ -8,6 +8,7 @@ import com.stokkur.accounts.util.AccountBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,27 +37,30 @@ public class AccountsControllerTest {
         List<Account> accountList = List.of(sampleAccount);
         List<AccountResponse> responseList = List.of(expectedAccountResponse);
         when(service.listAllAccounts()).thenReturn(accountList);
-        assertThat(controller.getAllAccounts()).usingRecursiveComparison().isEqualTo(responseList);
+        assertThat(controller.getAllAccounts()).usingRecursiveComparison().ignoringFieldsOfTypes(DateTimeFormatter.class).isEqualTo(responseList);
     }
 
     @Test
     void shouldAddAccountGivenUserInformation() {
         when(service.addAccount(accountRequest)).thenReturn(sampleAccount);
-        assertThat(controller.newAccount(accountRequest)).usingRecursiveComparison().isEqualTo(expectedAccountResponse);
+        assertThat(controller.newAccount(accountRequest)).usingRecursiveComparison()
+                .ignoringFieldsOfTypes(DateTimeFormatter.class).isEqualTo(expectedAccountResponse);
     }
 
     @Test
     void shouldFetchAccountGivenId() {
         UUID id = UUID.randomUUID();
         when(service.fetchAccount(id)).thenReturn(sampleAccount);
-        assertThat(controller.getAccount(id)).usingRecursiveComparison().isEqualTo(expectedAccountResponse);
+        assertThat(controller.getAccount(id)).usingRecursiveComparison()
+                .ignoringFieldsOfTypes(DateTimeFormatter.class).isEqualTo(expectedAccountResponse);
     }
 
     @Test
     void shouldUpdateAccountGivenId() {
         UUID id = UUID.randomUUID();
         when(service.updateAccount(id, accountRequest)).thenReturn(sampleAccount);
-        assertThat(controller.updateAccount(id, accountRequest)).usingRecursiveComparison().isEqualTo(expectedAccountResponse);
+        assertThat(controller.updateAccount(id, accountRequest)).usingRecursiveComparison()
+                .ignoringFieldsOfTypes(DateTimeFormatter.class).isEqualTo(expectedAccountResponse);
     }
 
     @Test
