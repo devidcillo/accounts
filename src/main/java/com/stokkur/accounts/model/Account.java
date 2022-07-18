@@ -8,19 +8,29 @@ import java.util.UUID;
 public class Account {
     @Id
     private UUID id;
-    private String name;
+    private String username;
+    private String password;
 
     public Account() {
     }
 
-    public Account(String name) {
+    public Account(String username, String password) {
         this.id = UUID.randomUUID();
-        this.name = name;
+        this.username = username;
+        this.password = password;
     }
 
-    public Account(UUID id, String name) {
+    public Account(UUID id, String username, String password) {
         this.id = id;
-        this.name = name;
+        this.username = username;
+        this.password = password;
+    }
+
+    public Account update(Account updatedAccount) {
+        if (updatedAccount.username.isEmpty())
+            return new Account(id, username, password);
+        else
+            return new Account(id, updatedAccount.username, updatedAccount.password);
     }
 
     public UUID getId() {
@@ -31,18 +41,19 @@ public class Account {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String name) {
+        this.username = name;
     }
 
-    public Account update(Account updatedAccount) {
-        if (updatedAccount.name.isEmpty())
-            return new Account(id, name);
-        else
-            return new Account(id, updatedAccount.name);
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

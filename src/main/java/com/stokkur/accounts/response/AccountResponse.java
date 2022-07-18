@@ -12,25 +12,31 @@ import java.util.UUID;
 public class AccountResponse {
     @JsonInclude(Include.NON_NULL)
     private UUID id;
-    private String name;
+    private String username;
+    private String password;
 
     public AccountResponse() {
     }
 
     private AccountResponse(Account account) {
         this.id = account.getId();
-        this.name = account.getName();
+        this.username = account.getUsername();
+        this.password = "***********";
     }
 
     public static AccountResponse fromAccount(Account account) {
         return new AccountResponse(account);
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
     public UUID getId() {
         return id;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

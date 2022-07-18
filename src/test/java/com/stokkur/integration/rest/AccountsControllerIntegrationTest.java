@@ -42,7 +42,7 @@ public class AccountsControllerIntegrationTest {
                 .expectStatus().isCreated()
                 .expectBody(AccountResponse.class).consumeWith(account -> {
                     assertThat(account.getResponseBody().getId()).isNotNull();
-                    assertThat(account.getResponseBody().getName()).isEqualTo("David");
+                    assertThat(account.getResponseBody().getUsername()).isEqualTo("David");
                 });
     }
 
@@ -55,7 +55,7 @@ public class AccountsControllerIntegrationTest {
                 .expectStatus().isOk()
                 .expectBody(AccountResponse.class).consumeWith(account -> {
                     assertThat(account.getResponseBody().getId()).isEqualTo(id);
-                    assertThat(account.getResponseBody().getName()).isEqualTo("Majo");
+                    assertThat(account.getResponseBody().getUsername()).isEqualTo("Majo");
                 });
     }
 
@@ -70,7 +70,7 @@ public class AccountsControllerIntegrationTest {
                 .expectStatus().isAccepted()
                 .expectBody(AccountResponse.class).consumeWith(account -> {
                     assertThat(account.getResponseBody().getId()).isNotNull();
-                    assertThat(account.getResponseBody().getName()).isEqualTo("David");
+                    assertThat(account.getResponseBody().getUsername()).isEqualTo("David");
                 });
     }
 

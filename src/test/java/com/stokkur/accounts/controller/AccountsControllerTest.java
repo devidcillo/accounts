@@ -4,7 +4,7 @@ import com.stokkur.accounts.model.Account;
 import com.stokkur.accounts.request.AccountRequest;
 import com.stokkur.accounts.response.AccountResponse;
 import com.stokkur.accounts.service.AccountService;
-import org.apache.commons.lang3.RandomStringUtils;
+import com.stokkur.accounts.util.AccountBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,8 +24,8 @@ public class AccountsControllerTest {
 
     @BeforeEach
     void setUp() {
-        sampleAccount = new Account(RandomStringUtils.randomAlphabetic(10));
-        accountRequest = new AccountRequest(RandomStringUtils.randomAlphabetic(10));
+        sampleAccount = new AccountBuilder().build();
+        accountRequest = new AccountBuilder().buildRequest();
         expectedAccountResponse = AccountResponse.fromAccount(sampleAccount);
         service = mock(AccountService.class);
         controller = new AccountsController(service);
