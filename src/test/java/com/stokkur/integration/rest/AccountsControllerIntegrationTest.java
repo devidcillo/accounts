@@ -10,6 +10,8 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,6 +37,8 @@ public class AccountsControllerIntegrationTest {
 
     @Test
     void shouldAddNewAccountGivenPayload() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter regularDateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         client.post().uri("/new-account")
                 .contentType(MediaType.APPLICATION_JSON)
                 .bodyValue("{\"name\": \"David\"}")
@@ -43,6 +47,8 @@ public class AccountsControllerIntegrationTest {
                 .expectBody(AccountResponse.class).consumeWith(account -> {
                     assertThat(account.getResponseBody().getId()).isNotNull();
                     assertThat(account.getResponseBody().getUsername()).isEqualTo("David");
+                    assertThat(account.getResponseBody().getPassword()).isEqualTo("***********");
+                    assertThat(account.getResponseBody().getMemberSince()).isEqualTo(now.format(regularDateFormat));
                 });
     }
 

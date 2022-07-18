@@ -6,14 +6,21 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.stokkur.accounts.model.Account;
 
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class AccountResponse {
     @JsonInclude(Include.NON_NULL)
     private UUID id;
+    @JsonInclude(Include.NON_NULL)
     private String username;
+    @JsonInclude(Include.NON_NULL)
     private String password;
+    @JsonInclude(Include.NON_NULL)
+    private String memberSince;
+
+    private final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     public AccountResponse() {
     }
@@ -22,6 +29,7 @@ public class AccountResponse {
         this.id = account.getId();
         this.username = account.getUsername();
         this.password = "***********";
+        this.memberSince = account.getMemberSince().format(dateFormatter);
     }
 
     public static AccountResponse fromAccount(Account account) {
@@ -38,5 +46,9 @@ public class AccountResponse {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getMemberSince() {
+        return memberSince;
     }
 }
